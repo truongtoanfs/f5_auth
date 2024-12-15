@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "f5-auth"
+version = "0.1.0"
+description = ""
+authors = ["tf_01"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+pydantic-settings = "^2.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
