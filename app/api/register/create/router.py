@@ -1,9 +1,13 @@
 from app.base.api.router import router
+from app.core.register.create.models import RegisterUserRequest
 
-tags = ['register']
+
+tags = ["register"]
+
+
 @router.post(
-    '/register/create',
+    "/register/create",
     tags=tags,
 )
-def register():
-    return 'ok'
+def register(payload: RegisterUserRequest):
+    return "ok"
