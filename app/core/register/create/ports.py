@@ -9,3 +9,6 @@ class RegisterUserUseCase(Protocol):
 class RegisterUserPort(Protocol):
     async def fetch_user_by_email(self, email: str):
         raise NotImplementedError()
+
+    async def fetch_register_by_email(self, email: str):
+        raise NotImplementedError()
