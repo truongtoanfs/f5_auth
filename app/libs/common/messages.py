@@ -4,3 +4,10 @@ REGISTER = {
         "en": "Register successful, temporary password has been send to your email",
     }
 }
+
+ERROR = {
+    "GENERAL": {
+        "vi": "Có lỗi xảy ra, vui lòng thử lại sau.",
+        "en": "An unknown error happened.",
+    }
+}
