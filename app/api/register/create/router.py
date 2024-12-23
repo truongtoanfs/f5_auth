@@ -9,7 +9,9 @@ from app.api.register.create.dependencies import get_language, register_user_ser
 tags = ["register"]
 
 
-@router.post("/register/create", tags=tags, response_model=RegisterUserServiceResponse)
+@router.post(
+    "/register/create", tags=["register"], response_model=RegisterUserServiceResponse
+)
 def register(
     payload: RegisterUserRequest,
     service: RegisterUserUseCase = Depends(register_user_service),

@@ -16,7 +16,7 @@ class ApiConfig(BaseSettings):
         "email": "toan.truongvanfs@gmail.com",
     }
     PASSWORD_EXPIRE: int = 2 * 24 * 60 * 60
-    MYSQL_URL: str
+    MYSQL_URL: str = ""
 
 
 apiConfig = ApiConfig()

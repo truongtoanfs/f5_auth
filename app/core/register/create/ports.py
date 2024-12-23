@@ -1,8 +1,9 @@
 from typing import Protocol
+from app.core.register.create.models import RegisterUserRequest
 
 
 class RegisterUserUseCase(Protocol):
-    def register(self):
+    def register(self, payload: RegisterUserRequest):
         raise NotImplementedError()
 
 

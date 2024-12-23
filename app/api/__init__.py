@@ -3,9 +3,7 @@ from app.api.register.create.router import router as register_create_router
 
 router = BaseRouter()
 
-routes = [
-    register_create_router
-]
+routes = [register_create_router]
 
 for r in routes:
     router.include_router(r)
