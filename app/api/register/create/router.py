@@ -12,12 +12,12 @@ tags = ["register"]
 @router.post(
     "/register/create", tags=["register"], response_model=RegisterUserServiceResponse
 )
-def register(
+async def register(
     payload: RegisterUserRequest,
     service: RegisterUserUseCase = Depends(register_user_service),
     language: str = Depends(get_language),
 ):
-    result = service.register(payload)
+    result = await service.register(payload)
     response = RegisterUserServiceResponse(
         status_code=201, message=REGISTER["CREATE_SUCCESS"][language], data=result
     )

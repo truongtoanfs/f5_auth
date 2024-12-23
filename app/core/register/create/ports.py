@@ -1,4 +1,5 @@
 from typing import Protocol
+from datetime import datetime
 from app.core.register.create.models import RegisterUserRequest
 
 
@@ -12,4 +13,9 @@ class RegisterUserPort(Protocol):
         raise NotImplementedError()
 
     async def fetch_register_by_email(self, email: str):
+        raise NotImplementedError()
+
+    async def update_register_password(
+        self, email: str, hash_password: str, password_expired: datetime
+    ):
         raise NotImplementedError()
