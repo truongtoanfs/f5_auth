@@ -17,6 +17,9 @@ class ApiConfig(BaseSettings):
     }
     PASSWORD_EXPIRED: int = 2 * 24 * 60 * 60
     MYSQL_URL: str
+    SENDER_EMAIL: str
+    SENDER_EMAIL_PASSWORD: str
+    TOKEN_SECRET_KEY: str
 
 
 apiConfig = ApiConfig()

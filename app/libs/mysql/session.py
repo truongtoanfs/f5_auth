@@ -1,7 +1,7 @@
 from sqlmodel import Session, create_engine
 from config import apiConfig
 
-engine = create_engine(apiConfig.MYSQL_URL, echo=True)
+engine = create_engine(apiConfig.MYSQL_URL)
 
 
 def get_session():

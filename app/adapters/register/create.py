@@ -1,6 +1,7 @@
 from sqlmodel import select
 from app.core.register.create.ports import RegisterUserPort
 from app.libs.mysql.models.user import User
+from app.libs.mysql.models import Register
 
 
 class RegisterUserApdater(RegisterUserPort):
@@ -13,4 +14,12 @@ class RegisterUserApdater(RegisterUserPort):
         return result
 
     async def fetch_register_by_email(self, email: str):
-        pass
+        statement = select(Register).where(Register.email == email)
+        result = self.session.exec(statement).first()
+        return result
+
+    async def add_user_to_register(self, register: Register):
+        self.session.add(register)
+        self.session.commit()
+        self.session.refresh(register)
+        return register

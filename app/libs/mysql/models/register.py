@@ -11,7 +11,7 @@ class Register(SQLModel, table=True):
     password: str
     password_expired_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
-        + timedelta(seconds=apiConfig.PASSWORD_EXPIRE),
+        + timedelta(seconds=apiConfig.PASSWORD_EXPIRED),
     )
     is_confirmed: bool = False
     confirmed_at: Optional[datetime] = None
