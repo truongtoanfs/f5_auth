@@ -21,5 +21,10 @@ class ApiConfig(BaseSettings):
     SENDER_EMAIL_PASSWORD: str
     TOKEN_SECRET_KEY: str
 
+    # Redis Config
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_PASSWORD: str
+
 
 apiConfig = ApiConfig()
