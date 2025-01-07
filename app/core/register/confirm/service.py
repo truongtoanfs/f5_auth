@@ -40,6 +40,6 @@ class RegisterConfirmService(RegisterConfirmUseCase):
 
         access_token = auth_handler.generate_token(
             data=dict(email=email),
-            expires_delta=EXPIRE_TOKEN["REGISTER"],
+            expires_delta=EXPIRE_TOKEN["SESSION"],
         )
         return RegisterConfirmResponseData(access_token=access_token)
