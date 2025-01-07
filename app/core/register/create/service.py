@@ -60,7 +60,7 @@ class RegisterUserService(RegisterUserUseCase):
 
         check_black_domain(email=payload.email)
 
-        data = Register(email=payload.email, password=password)
+        data = Register(email=payload.email, password=hash_password)
         register = await self.adapter.add_user_to_register(register=data)
         await send_mail(receiver_email=payload.email, password=password)
         access_token = auth_handler.generate_token(

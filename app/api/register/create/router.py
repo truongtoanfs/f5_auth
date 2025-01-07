@@ -1,17 +1,19 @@
 from fastapi import Depends
 from app.base.api.router import router
-from app.core.register.create.models import RegisterUserRequest
 from app.core.register.create.ports import RegisterUserUseCase
-from app.core.register.create.models import RegisterUserServiceResponse
+from app.core.register.create.models import (
+    RegisterUserRequest,
+    RegisterUserServiceResponse,
+)
 from app.libs.common.messages import REGISTER
-from app.api.register.create.dependencies import get_language, register_user_service
+from app.libs.common.utils import get_language
+from app.api.register.create.dependencies import register_user_service
+
 
 tags = ["register"]
 
 
-@router.post(
-    "/register/create", tags=["register"], response_model=RegisterUserServiceResponse
-)
+@router.post("/register/create", tags=tags, response_model=RegisterUserServiceResponse)
 async def register(
     payload: RegisterUserRequest,
     service: RegisterUserUseCase = Depends(register_user_service),

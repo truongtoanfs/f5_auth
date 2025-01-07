@@ -1,11 +1,24 @@
 import string
 import secrets
 import jwt
+import bcrypt
+from typing import Annotated
 from datetime import datetime, timedelta, timezone
 from config import apiConfig
-import bcrypt
+from fastapi import Depends
+from jwt.exceptions import InvalidTokenError
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from app.libs.exception.service import TokenException
+
 
 ALGORITHM = "HS256"
+security = HTTPBearer()
+
+
+def get_token_client(
+    credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]
+):
+    return credentials.credentials
 
 
 class AuthHandler:
@@ -27,7 +40,8 @@ class AuthHandler:
 
     def verify_hash_password(self, plain_password: str, hashed_password: str):
         return bcrypt.checkpw(
-            password=plain_password.encode("utf-8"), hashed_password=hashed_password
+            password=plain_password.encode("utf-8"),
+            hashed_password=hashed_password.encode("utf-8"),
         )
 
     def generate_token(self, data: dict, expires_delta: timedelta = 30 * 60):
@@ -40,4 +54,10 @@ class AuthHandler:
         return encoded_jwt
 
     def decode_token(self, token: str):
-        return jwt.decode(token, apiConfig.TOKEN_SECRET_KEY, algorithms=[ALGORITHM])
+        try:
+            token = jwt.decode(
+                token, apiConfig.TOKEN_SECRET_KEY, algorithms=[ALGORITHM]
+            )
+            return token
+        except InvalidTokenError:
+            raise TokenException

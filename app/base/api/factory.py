@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse
 from app.api import router as api_router
 from config import ApiConfig
 from app.libs.exception.base import BaseException, ServiceException
-from app.api.register.create.dependencies import get_language
+from app.libs.common.utils import get_language
 
 
 class Factory:

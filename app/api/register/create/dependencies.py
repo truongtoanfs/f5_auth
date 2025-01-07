@@ -1,14 +1,7 @@
-from fastapi import Request, Depends
+from fastapi import Depends
 from app.core.register.create.service import RegisterUserService
 from app.adapters.register.create import RegisterUserApdater
 from app.libs.mysql.session import get_session
-
-
-def get_language(request: Request):
-    accept_language = request.headers.get("accept-language")
-    if accept_language and "en" in accept_language:
-        return "en"
-    return "vi"
 
 
 def register_adapter(session=Depends(get_session)):
