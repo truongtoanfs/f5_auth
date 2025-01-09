@@ -8,6 +8,7 @@ class User(SQLModel, table=True):
     id: str = Field(primary_key=True, default_factory=uuid.uuid4)
     email: str = Field(index=True)
     password: str
+    password_updated_at: Optional[datetime] = None
     password_expired: bool = False
     password_expired_at: Optional[datetime] = None
     phone: Optional[str] = Field(None, max_length=20)

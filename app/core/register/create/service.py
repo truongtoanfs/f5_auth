@@ -39,7 +39,7 @@ class RegisterUserService(RegisterUserUseCase):
                     password_expired=current_time
                     + timedelta(seconds=apiConfig.PASSWORD_EXPIRED),
                 )
-                await send_mail(receiver_email=payload.email, password=password)
+                send_mail(receiver_email=payload.email, password=password)
                 access_token = auth_handler.generate_token(
                     data=dict(email=payload.email),
                     expires_delta=EXPIRE_TOKEN["REGISTER"],
@@ -62,7 +62,7 @@ class RegisterUserService(RegisterUserUseCase):
 
         data = Register(email=payload.email, password=hash_password)
         register = await self.adapter.add_user_to_register(register=data)
-        await send_mail(receiver_email=payload.email, password=password)
+        send_mail(receiver_email=payload.email, password=password)
         access_token = auth_handler.generate_token(
             data=dict(email=payload.email),
             expires_delta=EXPIRE_TOKEN["REGISTER"],

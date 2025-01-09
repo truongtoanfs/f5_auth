@@ -1,5 +1,5 @@
 from fastapi import Depends
-from app.base.api.router import router
+from app.base.api.router import BaseRouter
 from app.core.register.create.ports import RegisterUserUseCase
 from app.core.register.create.models import (
     RegisterUserRequest,
@@ -8,6 +8,8 @@ from app.core.register.create.models import (
 from app.libs.common.messages import REGISTER
 from app.libs.common.utils import get_language
 from app.api.register.create.dependencies import register_user_service
+
+router = BaseRouter()
 
 
 tags = ["register"]

@@ -9,6 +9,21 @@ REGISTER = {
     },
 }
 
+SUCCESS = {
+    "CONFIRM_SUCCESS": {
+        "vi": "Xác thực tài khoản thành công",
+        "en": "Account Verification Successful",
+    },
+    "GET_CONFIRM_CODE_SUCCESS": {
+        "vi": "Mã xác thực đã được gửi lên email của bạn",
+        "en": "A verification code has been sent to your email.",
+    },
+    "CHANGE_PASSWORD": {
+        "vi": "Mật khẩu của bạn đã được thay đổi thành công",
+        "en": "Your password has been changed successfully.",
+    },
+}
+
 ERROR = {
     "GENERAL": {
         "vi": "Có lỗi xảy ra, vui lòng thử lại sau.",

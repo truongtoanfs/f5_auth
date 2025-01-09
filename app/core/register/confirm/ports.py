@@ -18,5 +18,5 @@ class RegisterConfirmPort(Protocol):
     def add_user_to_user(self, user: User):
         raise NotImplementedError()
 
-    def delete_register_by_email(self, email: str):
+    def update_confirm_register(self, email: str):
         raise NotImplementedError()

@@ -4,7 +4,7 @@ from config import apiConfig
 from app.libs.exception.service import SendEmailException
 
 
-async def send_mail(receiver_email: str, password: str):
+def send_mail(receiver_email: str, password: str):
     with open("app/libs/mail/textfile.txt", "r") as file:
         file_content = file.read()
 

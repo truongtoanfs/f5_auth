@@ -14,7 +14,9 @@
 + create user user
 + return user_info, access_token
 # làm luồng thay đổi password
-+ type old password, new password
-+ check password
++ type email
++ confirm
++ type new password
++ update password
 + return new_token
 

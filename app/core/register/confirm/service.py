@@ -9,6 +9,8 @@ from app.libs.exception.service import (
 from app.libs.mysql.models.register import Register
 from app.libs.mysql.models.user import User
 from app.libs.common.constants import EXPIRE_TOKEN
+from app.libs.redis.redis_client import RedisClient
+from app.libs.redis.constants import redis_verify_access_token
 
 
 class RegisterConfirmService(RegisterConfirmUseCase):
@@ -36,10 +38,15 @@ class RegisterConfirmService(RegisterConfirmUseCase):
         user = User(email=email, password=register_user.password)
         self.adapter.add_user_to_user(user)
 
-        self.adapter.delete_register_by_email(email=email)
+        self.adapter.update_confirm_register(email=email)
 
         access_token = auth_handler.generate_token(
             data=dict(email=email),
             expires_delta=EXPIRE_TOKEN["SESSION"],
+        )
+
+        redis_client = RedisClient()
+        redis_client.set(
+            key=redis_verify_access_token.format(email=email), value=access_token
         )
         return RegisterConfirmResponseData(access_token=access_token)

@@ -1,5 +1,5 @@
 from fastapi import Depends
-from app.base.api.router import router
+from app.base.api.router import BaseRouter
 from app.core.register.confirm.models import (
     RegisterConfirmServiceResponse,
     RegisterConfirmRequest,
@@ -9,6 +9,8 @@ from app.libs.common.messages import REGISTER
 from app.libs.common.utils import get_language
 from app.libs.common.auth_handler import get_token_client
 from app.api.register.confirm.dependencies import register_confirm_service
+
+router = BaseRouter()
 
 tags = ["register"]
 

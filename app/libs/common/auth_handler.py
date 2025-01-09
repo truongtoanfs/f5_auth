@@ -10,7 +10,6 @@ from jwt.exceptions import InvalidTokenError
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.libs.exception.service import TokenException
 
-
 ALGORITHM = "HS256"
 security = HTTPBearer()
 
