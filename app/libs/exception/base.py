@@ -4,13 +4,16 @@ from ..common.messages import ERROR
 
 class BaseException(Exception):
     status_code = 500
-    detail = ERROR["GENERAL"]
+    message = ERROR["GENERAL"]
+    detail = None
 
     def output(self):
         data = {
             "status_code": self.status_code,
-            "detail": self.detail,
+            "message": self.message,
         }
+        if self.detail:
+            data["detail"] = self.detail
         return data
 
     def __str__(self):

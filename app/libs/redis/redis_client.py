@@ -13,11 +13,5 @@ class RedisClient:
     def get(self, key: str):
         return self.redis_conn.get(key)
 
-    def set(self, key: str, value: str):
-        return self.redis_conn.set(key, value)
-
-
-# redis_client = RedisClient()
-
-# result = redis_client.set(key="age", value=12)
-# username = redis_client.get(key="name")
+    def set(self, key: str, value: str, ex: int | None = None):
+        return self.redis_conn.set(key, value, ex=ex)

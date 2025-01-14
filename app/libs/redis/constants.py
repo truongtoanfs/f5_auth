@@ -1,1 +1,5 @@
 redis_verify_access_token = "verify_access_token__{email}"
+redis_register_sended_confirm_count = "sended_confirm_count__{email}"
+redis_register_sended_confirm_time = "register_sended_confirm_time__{email}"
+redis_forget_sended_confirm_count = "sended_confirm_count__{email}"
+redis_forget_sended_confirm_time = "forget_sended_confirm_time__{email}"

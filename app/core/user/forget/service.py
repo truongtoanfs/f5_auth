@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from .ports import UserForgetUseCase, UserForgetPort
 from app.core.user.forget.models import (
     ForgetUserRequest,
@@ -7,7 +8,12 @@ from app.core.user.forget.models import (
     ForgetUserConfirmData,
     ForgetUserResetData,
 )
-from app.libs.exception.service import UserNotExitException, PasswordInvalidException
+from app.libs.exception.service import (
+    UserNotExitException,
+    PasswordInvalidException,
+    BlockedEmailException,
+    SendEmailTimeException,
+)
 from app.libs.common.auth_handler import AuthHandler
 from app.libs.mail.send_mail import send_mail
 from app.libs.common.constants import EXPIRE_TOKEN, RESEND_VERIFICATION
@@ -15,16 +21,67 @@ from app.libs.mysql.models.register import Register
 from app.libs.redis.redis_client import RedisClient
 from app.libs.redis.constants import redis_verify_access_token
 from app.libs.exception.service import TokenException
+from app.libs.redis.constants import (
+    redis_forget_sended_confirm_count,
+    redis_forget_sended_confirm_time,
+)
+from app.libs.common.utils import seconds_left
 
 
 class ForgetUserService(UserForgetUseCase):
     def __init__(self, adapter: UserForgetPort):
         self.adapter = adapter
 
+    def __check_send_email_attempts(self, email: str):
+        redis_client = RedisClient()
+
+        sended_count = redis_client.get(
+            key=redis_forget_sended_confirm_count.format(email=email)
+        )
+
+        register_timestamp = redis_client.get(
+            key=redis_forget_sended_confirm_time.format(email=email)
+        )
+        current_timestamp = int(datetime.now(timezone.utc).timestamp())
+        if sended_count is None:
+            redis_client.set(
+                key=redis_forget_sended_confirm_count.format(email=email),
+                value=1,
+                ex=seconds_left(),
+            )
+            redis_client.set(
+                key=redis_forget_sended_confirm_time.format(email=email),
+                value=current_timestamp,
+                ex=seconds_left(),
+            )
+            return
+
+        if int(sended_count) > 3:
+            raise BlockedEmailException
+
+        # check resend 60s, 90s, 120s
+        next_timestamp = int(register_timestamp) + int(sended_count) * 30 + 30
+        retry_time = next_timestamp - current_timestamp
+        if retry_time > 0:
+            raise SendEmailTimeException(retry_time=retry_time)
+
+        redis_client.set(
+            key=redis_forget_sended_confirm_count.format(email=email),
+            value=int(sended_count) + 1,
+            ex=seconds_left(),
+        )
+        redis_client.set(
+            key=redis_forget_sended_confirm_time.format(email=email),
+            value=current_timestamp,
+            ex=seconds_left(),
+        )
+
     def get_confirm_code(self, payload: ForgetUserRequest):
         user = self.adapter.get_user_by_email(email=payload.email)
         if user is None:
             raise UserNotExitException
+
+        self.__check_send_email_attempts(email=payload.email)
 
         auth_handler = AuthHandler()
         password = auth_handler.generate_random_password()
@@ -61,7 +118,7 @@ class ForgetUserService(UserForgetUseCase):
 
         access_token = auth_handler.generate_token(
             data=dict(email=email),
-            expires_delta=EXPIRE_TOKEN["SESSION"],
+            expires_delta=EXPIRE_TOKEN["RESET_PASSWORD"],
         )
         redis_client = RedisClient()
         redis_client.set(
