@@ -5,10 +5,16 @@ import bcrypt
 from typing import Annotated
 from datetime import datetime, timedelta, timezone
 from config import apiConfig
-from fastapi import Depends
+from fastapi import Depends, Request
 from jwt.exceptions import InvalidTokenError
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from app.libs.exception.service import TokenException
+from app.libs.exception.service import (
+    TokenException,
+    MissingCaptchaException,
+    CaptchaException,
+)
+from app.libs.captcha import Captcha
+from .utils import get_ip_request
 
 ALGORITHM = "HS256"
 security = HTTPBearer()
@@ -18,6 +24,20 @@ def get_token_client(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]
 ):
     return credentials.credentials
+
+
+def verify_captcha(request: Request):
+    if not apiConfig.CAPTCHA_ENABLE:
+        return
+    captcha_client = request.headers.get("X-Captcha-Token")
+    if not captcha_client:
+        raise MissingCaptchaException
+    captcha = Captcha()
+    response = captcha.verify_recaptcha(
+        ip=get_ip_request(request), response=captcha_client
+    )
+    if not response:
+        raise CaptchaException
 
 
 class AuthHandler:

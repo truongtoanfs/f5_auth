@@ -67,4 +67,9 @@ ERROR = {
         "vi": "Password lên có it nhất 8 kí tự trong đó phải có một ký tự in thường, một ký tự in hoa, 1 ký tự số và một ký tự đặc biệt",
         "en": "The password must be at least 8 characters long and include one lowercase letter, one uppercase letter, one digit, and one special character.",
     },
+    "MISSING_CAPTCHA": {"vi": "Thiếu Captcha", "en": "missing captcha"},
+    "VERIFY_CAPTCHA": {
+        "vi": "Lỗi xác thưc Google Recaptcha",
+        "en": "Google Recaptcha Authentication Error",
+    },
 }

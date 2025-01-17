@@ -57,3 +57,13 @@ class UserNotExitException(ServiceException):
 class PasswordInvalidException(ServiceException):
     status_code = status.HTTP_401_UNAUTHORIZED
     message = ERROR["PASSWORD_INVALID"]
+
+
+class MissingCaptchaException(ServiceException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    message = ERROR["MISSING_CAPTCHA"]
+
+
+class CaptchaException(ServiceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    message = ERROR["VERIFY_CAPTCHA"]

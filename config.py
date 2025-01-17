@@ -15,16 +15,20 @@ class ApiConfig(BaseSettings):
         "name": "toanfs",
         "email": "toan.truongvanfs@gmail.com",
     }
+
     PASSWORD_EXPIRED: int = 2 * 24 * 60 * 60
     MYSQL_URL: str
     SENDER_EMAIL: str
     SENDER_EMAIL_PASSWORD: str
     TOKEN_SECRET_KEY: str
-
     # Redis Config
     REDIS_HOST: str = "localhost"
     REDIS_PORT: int = 6379
     REDIS_PASSWORD: str
+    # Captcha Config
+    CAPTCHA_ENABLE: bool = True
+    CAPTCHA_URL: str = "https://www.google.com/recaptcha/api/siteverify"
+    CAPTCHA_SECRET: str
 
 
 apiConfig = ApiConfig()

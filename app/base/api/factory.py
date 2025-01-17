@@ -4,6 +4,7 @@ from app.api import router as api_router
 from config import ApiConfig
 from app.libs.exception.base import ServiceException, BaseException
 from app.libs.common.utils import get_language
+from fastapi.middleware.cors import CORSMiddleware
 
 
 class Factory:
@@ -13,6 +14,15 @@ class Factory:
             version=config.VERSION,
             contact=config.CONTACT,
             docs_url=config.DOC_URL,
+        )
+
+        origins = ["http://localhost:3000"]
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
         )
 
         @app.exception_handler(Exception)

@@ -22,3 +22,11 @@ def seconds_left():
     end_of_day = datetime(now.year, now.month, now.day, 23, 59, 59)
     time_left = end_of_day - now
     return int(time_left.total_seconds())
+
+
+def get_ip_request(request: Request):
+    if request.headers.getlist("X-Forwarded-For"):
+        ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        ip = request.client.host
+    return ip
