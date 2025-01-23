@@ -22,6 +22,10 @@ SUCCESS = {
         "vi": "Mật khẩu của bạn đã được thay đổi thành công",
         "en": "Your password has been changed successfully.",
     },
+    "LOGIN": {
+        "vi": "Đăng nhập tài khoản thành công",
+        "en": "Account login successful"
+    }
 }
 
 ERROR = {
